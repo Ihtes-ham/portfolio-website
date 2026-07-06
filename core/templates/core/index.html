@@ -1,0 +1,985 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Muhammad Ihtesham | Python & Django Developer</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        code, .code { font-family: 'Fira Code', monospace; }
+
+        html { scroll-behavior: smooth; }
+
+        /* Gradient text */
+        .gradient-text {
+            background: linear-gradient(135deg, #1F3864, #2E75B6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Hero background */
+        .hero-bg {
+            background: linear-gradient(135deg, #f8faff 0%, #e8f0fe 50%, #f0f7ff 100%);
+        }
+
+        /* Navbar */
+        .navbar {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.95);
+            border-bottom: 1px solid rgba(31, 56, 100, 0.1);
+        }
+
+        /* Typing cursor */
+        .typed-cursor { color: #2E75B6; font-weight: 300; animation: blink 1s infinite; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+        /* Skill bar */
+        .skill-bar { height: 6px; border-radius: 999px; background: #e2e8f0; overflow: hidden; }
+        .skill-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, #1F3864, #2E75B6); transition: width 1.5s ease; }
+
+        /* Project card */
+        .project-card {
+            transition: all 0.3s ease;
+            border: 1px solid rgba(31, 56, 100, 0.1);
+        }
+        .project-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px rgba(31, 56, 100, 0.15);
+            border-color: rgba(46, 117, 182, 0.3);
+        }
+
+        /* Tech badge */
+        .tech-badge {
+            background: linear-gradient(135deg, #EFF6FF, #DBEAFE);
+            color: #1F3864;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 999px;
+            border: 1px solid rgba(31, 56, 100, 0.15);
+        }
+
+        /* FYP badge */
+        .fyp-badge {
+            background: linear-gradient(135deg, #1F3864, #2E75B6);
+            color: white;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 999px;
+            letter-spacing: 0.5px;
+        }
+
+        /* Section heading */
+        .section-line {
+            width: 50px; height: 4px;
+            background: linear-gradient(90deg, #1F3864, #2E75B6);
+            border-radius: 999px;
+            margin: 0 auto 1rem;
+        }
+
+        /* AI Chatbot */
+        .chatbot-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 1000;
+        }
+
+        .chat-window {
+            width: 340px;
+            height: 440px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(31, 56, 100, 0.2);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid rgba(31, 56, 100, 0.1);
+            margin-bottom: 12px;
+        }
+
+        .chat-window.open { display: flex; }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .msg-bot {
+            background: #EFF6FF;
+            color: #1F3864;
+            padding: 10px 14px;
+            border-radius: 0 12px 12px 12px;
+            font-size: 13px;
+            max-width: 85%;
+            line-height: 1.5;
+        }
+
+        .msg-user {
+            background: linear-gradient(135deg, #1F3864, #2E75B6);
+            color: white;
+            padding: 10px 14px;
+            border-radius: 12px 12px 0 12px;
+            font-size: 13px;
+            max-width: 85%;
+            align-self: flex-end;
+            line-height: 1.5;
+        }
+
+        .chat-input-area {
+            padding: 12px;
+            border-top: 1px solid #EFF6FF;
+            display: flex;
+            gap: 8px;
+        }
+
+        .chat-input-area input {
+            flex: 1;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 13px;
+            outline: none;
+        }
+
+        .chat-input-area input:focus { border-color: #2E75B6; }
+
+        .chat-send-btn {
+            background: linear-gradient(135deg, #1F3864, #2E75B6);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 14px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .chat-toggle-btn {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, #1F3864, #2E75B6);
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 25px rgba(31, 56, 100, 0.35);
+            transition: transform 0.2s;
+        }
+
+        .chat-toggle-btn:hover { transform: scale(1.1); }
+
+        /* Typing indicator */
+        .typing-indicator { display: flex; gap: 4px; padding: 10px 14px; }
+        .typing-dot {
+            width: 6px; height: 6px;
+            background: #2E75B6;
+            border-radius: 50%;
+            animation: typing 1s infinite;
+        }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes typing { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+
+        /* Floating particles */
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(46, 117, 182, 0.1);
+            animation: float linear infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100px) rotate(720deg); opacity: 0; }
+        }
+
+        /* Timeline */
+        .timeline-dot {
+            width: 14px; height: 14px;
+            background: linear-gradient(135deg, #1F3864, #2E75B6);
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 0 0 3px rgba(46, 117, 182, 0.3);
+        }
+
+        /* Nav link hover */
+        .nav-link { position: relative; }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px; left: 0;
+            width: 0; height: 2px;
+            background: linear-gradient(90deg, #1F3864, #2E75B6);
+            transition: width 0.3s ease;
+            border-radius: 999px;
+        }
+        .nav-link:hover::after { width: 100%; }
+
+        /* Scroll to top */
+        #scrollTop {
+            position: fixed;
+            bottom: 90px;
+            right: 24px;
+            z-index: 999;
+            display: none;
+        }
+
+        /* CV Analyzer */
+        .analyzer-box {
+            background: linear-gradient(135deg, #f8faff, #EFF6FF);
+            border: 1px solid rgba(46, 117, 182, 0.2);
+        }
+    </style>
+</head>
+
+<body class="bg-white text-gray-800 overflow-x-hidden">
+
+<!-- Floating Particles -->
+<div id="particles" class="fixed inset-0 pointer-events-none overflow-hidden z-0"></div>
+
+<!-- NAVBAR -->
+<nav class="navbar fixed top-0 w-full z-50 shadow-sm">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+        <a href="#home" class="text-xl font-bold gradient-text">Ihtesham<span class="text-blue-600">.</span></a>
+        <div class="hidden md:flex gap-8 text-sm font-medium text-gray-600">
+            <a href="#about" class="nav-link hover:text-blue-700 transition">About</a>
+            <a href="#skills" class="nav-link hover:text-blue-700 transition">Skills</a>
+            <a href="#projects" class="nav-link hover:text-blue-700 transition">Projects</a>
+            <a href="#experience" class="nav-link hover:text-blue-700 transition">Experience</a>
+            <a href="#ai-analyzer" class="nav-link hover:text-blue-700 transition">AI Analyzer</a>
+            <a href="#contact" class="nav-link hover:text-blue-700 transition">Contact</a>
+        </div>
+        <a href="#contact" class="bg-gradient-to-r from-blue-900 to-blue-600 text-white px-5 py-2 rounded-full text-sm font-semibold hover:shadow-lg transition">
+            Hire Me
+        </a>
+    </div>
+</nav>
+
+<!-- HERO SECTION -->
+<section id="home" class="hero-bg min-h-screen flex items-center pt-20 relative overflow-hidden">
+    <div class="max-w-6xl mx-auto px-6 py-20 grid md:grid-cols-2 gap-12 items-center relative z-10">
+        <div data-aos="fade-right" data-aos-duration="800">
+            <div class="inline-flex items-center gap-2 bg-blue-50 border border-blue-200 text-blue-700 text-sm font-medium px-4 py-2 rounded-full mb-6">
+                <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                Available for opportunities
+            </div>
+            <h1 class="text-5xl md:text-6xl font-bold leading-tight mb-4">
+                Hi, I'm<br>
+                <span class="gradient-text">Ihtesham</span>
+            </h1>
+            <div class="text-2xl font-semibold text-gray-600 mb-6 h-10">
+                <span id="typed-text"></span><span class="typed-cursor">|</span>
+            </div>
+            <p class="text-gray-500 text-lg leading-relaxed mb-8 max-w-lg">
+                Python/Django backend developer passionate about building scalable web applications with AI integration. Fresh graduate, fast learner, strong problem-solver.
+            </p>
+            <div class="flex gap-4 flex-wrap">
+                <a href="#projects" class="bg-gradient-to-r from-blue-900 to-blue-600 text-white px-7 py-3 rounded-full font-semibold hover:shadow-xl transition transform hover:-translate-y-1">
+                    View Projects →
+                </a>
+                <a href="#contact" class="border-2 border-blue-800 text-blue-800 px-7 py-3 rounded-full font-semibold hover:bg-blue-800 hover:text-white transition">
+                    Contact Me
+                </a>
+            </div>
+            <div class="flex gap-5 mt-8">
+                <a href="https://github.com/Ihtes-ham" target="_blank" class="text-gray-400 hover:text-blue-700 transition text-xl">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="https://linkedin.com/in/m-ihtesham480" target="_blank" class="text-gray-400 hover:text-blue-700 transition text-xl">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="mailto:ihteshamm480@gmail.com" class="text-gray-400 hover:text-blue-700 transition text-xl">
+                    <i class="fas fa-envelope"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Profile Image -->
+        <div data-aos="fade-left" data-aos-duration="800" data-aos-delay="200" class="flex justify-center">
+            <div class="relative">
+                <!-- Decorative ring -->
+                <div class="absolute inset-0 rounded-full bg-gradient-to-br from-blue-900 to-blue-400 blur-2xl opacity-20 scale-110"></div>
+                <!-- Profile image -->
+                <div class="relative w-72 h-72 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-white shadow-2xl">
+                    <img src="{% static 'core/images/profile.png' %}"
+                         alt="Muhammad Ihtesham Ul Haq"
+                         class="w-full h-full object-cover object-top">
+                </div>
+                <!-- Available badge on photo -->
+                <div class="absolute bottom-4 right-4 bg-white rounded-full px-3 py-1.5 shadow-lg flex items-center gap-2">
+                    <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                    <span class="text-xs font-semibold text-gray-700">Available</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- ABOUT SECTION -->
+<section id="about" class="py-20 bg-white">
+    <div class="max-w-5xl mx-auto px-6">
+        <div class="text-center mb-12" data-aos="fade-up">
+            <div class="section-line"></div>
+            <h2 class="text-3xl font-bold gradient-text">About Me</h2>
+        </div>
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+            <div data-aos="fade-right">
+                <h3 class="text-xl font-bold text-gray-800 mb-4">Who am I?</h3>
+                <p class="text-gray-500 leading-relaxed mb-4">
+                    I'm a fresh BS Software Engineering graduate from The Islamia University of Bahawalpur (CGPA: 3.50) with hands-on experience building production-ready backend systems.
+                </p>
+                <p class="text-gray-500 leading-relaxed mb-6">
+                    During my internship at Enigmatix and through my Final Year Project SocialSync — an AI-powered social media platform — I've built real systems using Django REST Framework, PostgreSQL, Redis, Celery, and Google Gemini API.
+                </p>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-blue-50 rounded-xl p-4 text-center border border-blue-100">
+                        <div class="text-2xl font-bold gradient-text">13+</div>
+                        <div class="text-xs text-gray-500 mt-1">Months Internship</div>
+                    </div>
+                    <div class="bg-blue-50 rounded-xl p-4 text-center border border-blue-100">
+                        <div class="text-2xl font-bold gradient-text">6+</div>
+                        <div class="text-xs text-gray-500 mt-1">Projects Built</div>
+                    </div>
+                    <div class="bg-blue-50 rounded-xl p-4 text-center border border-blue-100">
+                        <div class="text-2xl font-bold gradient-text">3.50</div>
+                        <div class="text-xs text-gray-500 mt-1">CGPA</div>
+                    </div>
+                    <div class="bg-blue-50 rounded-xl p-4 text-center border border-blue-100">
+                        <div class="text-2xl font-bold gradient-text">60+</div>
+                        <div class="text-xs text-gray-500 mt-1">REST Endpoints Built</div>
+                    </div>
+                </div>
+            </div>
+            <div data-aos="fade-left">
+                <div class="space-y-4">
+                    <div class="flex items-center gap-3 text-gray-600">
+                        <i class="fas fa-graduation-cap text-blue-700 w-5"></i>
+                        <span class="text-sm">BS Software Engineering — IUB (2022-2026)</span>
+                    </div>
+                    <div class="flex items-center gap-3 text-gray-600">
+                        <i class="fas fa-briefcase text-blue-700 w-5"></i>
+                        <span class="text-sm">Backend Intern — Enigmatix Pvt. Ltd.</span>
+                    </div>
+                    <div class="flex items-center gap-3 text-gray-600">
+                        <i class="fas fa-map-marker-alt text-blue-700 w-5"></i>
+                        <span class="text-sm">Layyah, Punjab, Pakistan</span>
+                    </div>
+                    <div class="flex items-center gap-3 text-gray-600">
+                        <i class="fas fa-envelope text-blue-700 w-5"></i>
+                        <span class="text-sm">ihteshamm480@gmail.com</span>
+                    </div>
+                    <div class="flex items-center gap-3 text-gray-600">
+                        <i class="fas fa-check-circle text-green-500 w-5"></i>
+                        <span class="text-sm font-medium text-green-600">Open to full-time, remote & freelance</span>
+                    </div>
+                </div>
+<a href="{% static 'core/files/Muhammad_Ihtesham_CV.pdf' %}" download="Muhammad_Ihtesham_CV.pdf" class="inline-flex items-center gap-2 mt-8 bg-gradient-to-r from-blue-900 to-blue-600 text-white px-6 py-3 rounded-full font-semibold hover:shadow-lg transition text-sm">                    <i class="fas fa-download"></i> Download CV
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SKILLS SECTION -->
+<section id="skills" class="py-20 bg-gray-50">
+    <div class="max-w-5xl mx-auto px-6">
+        <div class="text-center mb-12" data-aos="fade-up">
+            <div class="section-line"></div>
+            <h2 class="text-3xl font-bold gradient-text">Technical Skills</h2>
+        </div>
+        <div class="grid md:grid-cols-2 gap-8" data-aos="fade-up" data-aos-delay="100">
+            <div class="space-y-5">
+                <h3 class="font-bold text-gray-700 mb-4">Backend & Languages</h3>
+                <div class="skill-item">
+                    <div class="flex justify-between text-sm mb-1"><span>Python & Django</span><span class="text-blue-700">90%</span></div>
+                    <div class="skill-bar"><div class="skill-fill" data-width="90"></div></div>
+                </div>
+                <div class="skill-item">
+                    <div class="flex justify-between text-sm mb-1"><span>Django REST Framework</span><span class="text-blue-700">85%</span></div>
+                    <div class="skill-bar"><div class="skill-fill" data-width="85"></div></div>
+                </div>
+                <div class="skill-item">
+                    <div class="flex justify-between text-sm mb-1"><span>PostgreSQL & MySQL</span><span class="text-blue-700">82%</span></div>
+                    <div class="skill-bar"><div class="skill-fill" data-width="82"></div></div>
+                </div>
+                <div class="skill-item">
+                    <div class="flex justify-between text-sm mb-1"><span>Redis & Celery</span><span class="text-blue-700">78%</span></div>
+                    <div class="skill-bar"><div class="skill-fill" data-width="78"></div></div>
+                </div>
+                <div class="skill-item">
+                    <div class="flex justify-between text-sm mb-1"><span>REST APIs & JWT Auth</span><span class="text-blue-700">85%</span></div>
+                    <div class="skill-bar"><div class="skill-fill" data-width="85"></div></div>
+                </div>
+            </div>
+            <div class="space-y-5">
+                <h3 class="font-bold text-gray-700 mb-4">AI, Frontend & Tools</h3>
+                <div class="skill-item">
+                    <div class="flex justify-between text-sm mb-1"><span>Gemini API & AI Integration</span><span class="text-blue-700">80%</span></div>
+                    <div class="skill-bar"><div class="skill-fill" data-width="80"></div></div>
+                </div>
+                <div class="skill-item">
+                    <div class="flex justify-between text-sm mb-1"><span>HTML5, CSS3, JavaScript</span><span class="text-blue-700">75%</span></div>
+                    <div class="skill-bar"><div class="skill-fill" data-width="75"></div></div>
+                </div>
+                <div class="skill-item">
+                    <div class="flex justify-between text-sm mb-1"><span>Bootstrap & Tailwind CSS</span><span class="text-blue-700">78%</span></div>
+                    <div class="skill-bar"><div class="skill-fill" data-width="78"></div></div>
+                </div>
+                <div class="skill-item">
+                    <div class="flex justify-between text-sm mb-1"><span>Git & GitHub</span><span class="text-blue-700">85%</span></div>
+                    <div class="skill-bar"><div class="skill-fill" data-width="85"></div></div>
+                </div>
+                <div class="skill-item">
+                    <div class="flex justify-between text-sm mb-1"><span>Pandas & TextBlob</span><span class="text-blue-700">72%</span></div>
+                    <div class="skill-bar"><div class="skill-fill" data-width="72"></div></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tech Stack Icons -->
+<div class="mt-12 flex flex-wrap gap-3 justify-center" data-aos="fade-up">
+    <span class="tech-badge">Python</span>
+    <span class="tech-badge">Django</span>
+    <span class="tech-badge">PostgreSQL</span>
+    <span class="tech-badge">Redis</span>
+    <span class="tech-badge">Celery</span>
+    <span class="tech-badge">JWT</span>
+    <span class="tech-badge">REST APIs</span>
+    <span class="tech-badge">Git</span>
+    <span class="tech-badge">Tailwind CSS</span>
+    <span class="tech-badge">Gemini AI</span>
+    <span class="tech-badge">OpenCV</span>
+    <span class="tech-badge">Pandas</span>
+</div>
+</section>
+
+<!-- PROJECTS SECTION -->
+<section id="projects" class="py-20 bg-white">
+    <div class="max-w-6xl mx-auto px-6">
+        <div class="text-center mb-12" data-aos="fade-up">
+            <div class="section-line"></div>
+            <h2 class="text-3xl font-bold gradient-text">Key Projects</h2>
+            <p class="text-gray-500 mt-2">Real systems, real code, real impact</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            <!-- SocialSync -->
+            <div class="project-card bg-white rounded-2xl p-6 shadow-sm" data-aos="fade-up" data-aos-delay="0">
+                <div class="flex items-start justify-between mb-3">
+                    <div class="w-12 h-12 bg-gradient-to-br from-blue-900 to-blue-600 rounded-xl flex items-center justify-center text-white text-xl">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <span class="fyp-badge">FINAL YEAR PROJECT</span>
+                </div>
+                <h3 class="font-bold text-gray-800 text-lg mb-2">SocialSync</h3>
+                <p class="text-gray-500 text-sm leading-relaxed mb-4">
+                    AI-powered social media management platform managing Twitter, Instagram, Facebook & LinkedIn from one dashboard. 22+ models, 60+ REST endpoints.
+                </p>
+                <div class="flex flex-wrap gap-1.5 mb-4">
+                    <span class="tech-badge">Django REST</span>
+                    <span class="tech-badge">PostgreSQL</span>
+                    <span class="tech-badge">Redis</span>
+                    <span class="tech-badge">Celery</span>
+                    <span class="tech-badge">Gemini API</span>
+                </div>
+                <a href="https://github.com/Ihtes-ham/social_media_manager" target="_blank"
+                   class="flex items-center gap-2 text-blue-700 text-sm font-semibold hover:underline">
+                    <i class="fab fa-github"></i> View on GitHub
+                </a>
+            </div>
+
+            <!-- ScholarIntell -->
+            <div class="project-card bg-white rounded-2xl p-6 shadow-sm" data-aos="fade-up" data-aos-delay="100">
+                <div class="flex items-start justify-between mb-3">
+                    <div class="w-12 h-12 bg-gradient-to-br from-purple-700 to-purple-500 rounded-xl flex items-center justify-center text-white text-xl">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <span class="bg-purple-100 text-purple-700 text-xs font-bold px-3 py-1 rounded-full">FREELANCE</span>
+                </div>
+                <h3 class="font-bold text-gray-800 text-lg mb-2">ScholarIntell</h3>
+                <p class="text-gray-500 text-sm leading-relaxed mb-4">
+                    Intelligent scholarship recommendation platform matching students to foreign scholarships based on eligibility criteria. Large structured dataset.
+                </p>
+                <div class="flex flex-wrap gap-1.5 mb-4">
+                    <span class="tech-badge">Python</span>
+                    <span class="tech-badge">Django</span>
+                    <span class="tech-badge">HTML/CSS</span>
+                    <span class="tech-badge">JavaScript</span>
+                </div>
+                <span class="flex items-center gap-2 text-gray-400 text-sm">
+                    <i class="fas fa-lock"></i> Private Repository
+                </span>
+            </div>
+
+            <!-- HRMS -->
+            <div class="project-card bg-white rounded-2xl p-6 shadow-sm" data-aos="fade-up" data-aos-delay="200">
+                <div class="flex items-start justify-between mb-3">
+                    <div class="w-12 h-12 bg-gradient-to-br from-green-700 to-green-500 rounded-xl flex items-center justify-center text-white text-xl">
+                        <i class="fas fa-users"></i>
+                    </div>
+                </div>
+                <h3 class="font-bold text-gray-800 text-lg mb-2">HRMS</h3>
+                <p class="text-gray-500 text-sm leading-relaxed mb-4">
+                    Complete HR Management System covering employee records, department structure, attendance logging, and full leave-management workflow with role-based access.
+                </p>
+                <div class="flex flex-wrap gap-1.5 mb-4">
+                    <span class="tech-badge">Django</span>
+                    <span class="tech-badge">PostgreSQL</span>
+                    <span class="tech-badge">Role-based Auth</span>
+                </div>
+                <a href="https://github.com/Ihtes-ham/hrms" target="_blank"
+                   class="flex items-center gap-2 text-blue-700 text-sm font-semibold hover:underline">
+                    <i class="fab fa-github"></i> View on GitHub
+                </a>
+            </div>
+
+            <!-- Face Recognition -->
+            <div class="project-card bg-white rounded-2xl p-6 shadow-sm" data-aos="fade-up" data-aos-delay="300">
+                <div class="flex items-start justify-between mb-3">
+                    <div class="w-12 h-12 bg-gradient-to-br from-orange-600 to-orange-400 rounded-xl flex items-center justify-center text-white text-xl">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                </div>
+                <h3 class="font-bold text-gray-800 text-lg mb-2">Face Recognition Attendance</h3>
+                <p class="text-gray-500 text-sm leading-relaxed mb-4">
+                    Touchless face-recognition based attendance system with employee check-in/out, leave workflows, and analytics dashboard.
+                </p>
+                <div class="flex flex-wrap gap-1.5 mb-4">
+                    <span class="tech-badge">Django</span>
+                    <span class="tech-badge">OpenCV</span>
+                    <span class="tech-badge">Python</span>
+                </div>
+                <a href="https://github.com/Ihtes-ham/face_attendance_system" target="_blank"
+                   class="flex items-center gap-2 text-blue-700 text-sm font-semibold hover:underline">
+                    <i class="fab fa-github"></i> View on GitHub
+                </a>
+            </div>
+
+            <!-- Social Analytics -->
+            <div class="project-card bg-white rounded-2xl p-6 shadow-sm" data-aos="fade-up" data-aos-delay="400">
+                <div class="flex items-start justify-between mb-3">
+                    <div class="w-12 h-12 bg-gradient-to-br from-pink-600 to-pink-400 rounded-xl flex items-center justify-center text-white text-xl">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                </div>
+                <h3 class="font-bold text-gray-800 text-lg mb-2">Social Analytics Platform</h3>
+                <p class="text-gray-500 text-sm leading-relaxed mb-4">
+                    Social media & marketing analytics platform delivering data visualization with engagement insights and reporting.
+                </p>
+                <div class="flex flex-wrap gap-1.5 mb-4">
+                    <span class="tech-badge">Django</span>
+                    <span class="tech-badge">Chart.js</span>
+                    <span class="tech-badge">HTML/CSS</span>
+                </div>
+                <a href="https://github.com/Ihtes-ham/social-analytics-platform" target="_blank"
+                   class="flex items-center gap-2 text-blue-700 text-sm font-semibold hover:underline">
+                    <i class="fab fa-github"></i> View on GitHub
+                </a>
+            </div>
+
+            <!-- Bugzilla Lite -->
+            <div class="project-card bg-white rounded-2xl p-6 shadow-sm" data-aos="fade-up" data-aos-delay="500">
+                <div class="flex items-start justify-between mb-3">
+                    <div class="w-12 h-12 bg-gradient-to-br from-red-600 to-red-400 rounded-xl flex items-center justify-center text-white text-xl">
+                        <i class="fas fa-bug"></i>
+                    </div>
+                </div>
+                <h3 class="font-bold text-gray-800 text-lg mb-2">Bugzilla Lite</h3>
+                <p class="text-gray-500 text-sm leading-relaxed mb-4">
+                    Lightweight bug-tracking application for logging, categorizing, assigning, and resolving software issues with team collaboration.
+                </p>
+                <div class="flex flex-wrap gap-1.5 mb-4">
+                    <span class="tech-badge">Django</span>
+                    <span class="tech-badge">HTML</span>
+                    <span class="tech-badge">CSS</span>
+                </div>
+                <a href="https://github.com/Ihtes-ham/bugzilla_lite" target="_blank"
+                   class="flex items-center gap-2 text-blue-700 text-sm font-semibold hover:underline">
+                    <i class="fab fa-github"></i> View on GitHub
+                </a>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- EXPERIENCE SECTION -->
+<section id="experience" class="py-20 bg-gray-50">
+    <div class="max-w-4xl mx-auto px-6">
+        <div class="text-center mb-12" data-aos="fade-up">
+            <div class="section-line"></div>
+            <h2 class="text-3xl font-bold gradient-text">Experience</h2>
+        </div>
+
+        <div class="relative" data-aos="fade-up">
+            <!-- Timeline line -->
+            <div class="absolute left-6 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-900 to-blue-300"></div>
+
+            <!-- Experience Item -->
+            <div class="relative pl-16 pb-10">
+                <div class="timeline-dot absolute left-3.5 top-1"></div>
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                    <div class="flex flex-wrap justify-between items-start mb-3">
+                        <div>
+                            <h3 class="font-bold text-gray-800 text-lg">Backend Developer Intern</h3>
+                            <p class="text-blue-700 font-semibold text-sm">Enigmatix Pvt. Ltd. — Bahawalpur</p>
+                        </div>
+                        <span class="bg-blue-50 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full border border-blue-200">
+                            Jun 2024 – Jul 2025
+                        </span>
+                    </div>
+                    <ul class="text-gray-500 text-sm space-y-2">
+                        <li class="flex gap-2"><span class="text-blue-600 mt-0.5">▪</span> Built backend solutions using Python and Django across multiple internal and client projects.</li>
+                        <li class="flex gap-2"><span class="text-blue-600 mt-0.5">▪</span> Implemented REST APIs, authentication systems, and database-driven CRUD operations.</li>
+                        <li class="flex gap-2"><span class="text-blue-600 mt-0.5">▪</span> Shipped HR Management System, Online Lab Diagnosis Portal, Student Record Management, and Blog Application.</li>
+                        <li class="flex gap-2"><span class="text-blue-600 mt-0.5">▪</span> Gained practical exposure to real-world development workflows, code reviews, and team collaboration.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Education Item -->
+            <div class="relative pl-16">
+                <div class="timeline-dot absolute left-3.5 top-1"></div>
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                    <div class="flex flex-wrap justify-between items-start mb-3">
+                        <div>
+                            <h3 class="font-bold text-gray-800 text-lg">BS Software Engineering</h3>
+                            <p class="text-blue-700 font-semibold text-sm">The Islamia University of Bahawalpur</p>
+                        </div>
+                        <span class="bg-blue-50 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full border border-blue-200">
+                            2022 – 2026
+                        </span>
+                    </div>
+                    <p class="text-gray-500 text-sm">CGPA: 3.50 — Graduated with a strong foundation in software engineering, algorithms, databases, and AI.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- AI CV ANALYZER SECTION -->
+<section id="ai-analyzer" class="py-20 bg-white">
+    <div class="max-w-4xl mx-auto px-6">
+        <div class="text-center mb-12" data-aos="fade-up">
+            <div class="section-line"></div>
+            <h2 class="text-3xl font-bold gradient-text">AI Job Match Analyzer</h2>
+            <p class="text-gray-500 mt-2">Paste a job description and AI will tell you how well I match it</p>
+        </div>
+
+        <div class="analyzer-box rounded-2xl p-8" data-aos="fade-up">
+            <div class="mb-4">
+                <label class="text-sm font-semibold text-gray-700 mb-2 block">Paste Job Description Here</label>
+                <textarea id="job-desc" rows="6" placeholder="e.g. We are looking for a Python Django developer with experience in REST APIs, PostgreSQL..."
+                    class="w-full border border-blue-200 rounded-xl p-4 text-sm focus:outline-none focus:border-blue-500 resize-none bg-white"></textarea>
+            </div>
+            <button onclick="analyzeCV()" class="bg-gradient-to-r from-blue-900 to-blue-600 text-white px-8 py-3 rounded-full font-semibold text-sm hover:shadow-lg transition">
+                <i class="fas fa-magic mr-2"></i>Analyze Match
+            </button>
+            <div id="analyze-result" class="mt-6 hidden">
+                <div class="bg-white rounded-xl p-5 border border-blue-100 shadow-sm">
+                    <div class="flex items-center gap-2 mb-3">
+                        <i class="fas fa-robot text-blue-700"></i>
+                        <span class="font-semibold text-gray-700 text-sm">AI Analysis Result</span>
+                    </div>
+                    <div id="analyze-text" class="text-gray-600 text-sm leading-relaxed whitespace-pre-wrap"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CONTACT SECTION -->
+<section id="contact" class="py-20 bg-gray-50">
+    <div class="max-w-4xl mx-auto px-6">
+        <div class="text-center mb-12" data-aos="fade-up">
+            <div class="section-line"></div>
+            <h2 class="text-3xl font-bold gradient-text">Get In Touch</h2>
+            <p class="text-gray-500 mt-2">Open to opportunities — let's talk!</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8">
+            <div data-aos="fade-right">
+                <h3 class="font-bold text-gray-700 mb-6">Contact Information</h3>
+                <div class="space-y-4">
+                    <a href="mailto:ihteshamm480@gmail.com" class="flex items-center gap-4 p-4 bg-white rounded-xl shadow-sm hover:shadow-md transition border border-gray-100">
+                        <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center text-blue-700">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div>
+                            <div class="text-xs text-gray-400">Email</div>
+                            <div class="text-sm font-semibold text-gray-700">ihteshamm480@gmail.com</div>
+                        </div>
+                    </a>
+                    <a href="https://linkedin.com/in/m-ihtesham480" target="_blank" class="flex items-center gap-4 p-4 bg-white rounded-xl shadow-sm hover:shadow-md transition border border-gray-100">
+                        <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center text-blue-700">
+                            <i class="fab fa-linkedin"></i>
+                        </div>
+                        <div>
+                            <div class="text-xs text-gray-400">LinkedIn</div>
+                            <div class="text-sm font-semibold text-gray-700">m-ihtesham480</div>
+                        </div>
+                    </a>
+                    <a href="https://github.com/Ihtes-ham" target="_blank" class="flex items-center gap-4 p-4 bg-white rounded-xl shadow-sm hover:shadow-md transition border border-gray-100">
+                        <div class="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center text-gray-700">
+                            <i class="fab fa-github"></i>
+                        </div>
+                        <div>
+                            <div class="text-xs text-gray-400">GitHub</div>
+                            <div class="text-sm font-semibold text-gray-700">Ihtes-ham</div>
+                        </div>
+                    </a>
+                    <div class="flex items-center gap-4 p-4 bg-white rounded-xl shadow-sm border border-gray-100">
+                        <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center text-green-700">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div>
+                            <div class="text-xs text-gray-400">WhatsApp / Phone</div>
+                            <div class="text-sm font-semibold text-gray-700">+92 331-7283175</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div data-aos="fade-left">
+                <h3 class="font-bold text-gray-700 mb-6">Send a Message</h3>
+                <form class="space-y-4">
+                    <input type="text" placeholder="Your Name" class="w-full border border-gray-200 rounded-xl p-3 text-sm focus:outline-none focus:border-blue-500 bg-white">
+                    <input type="email" placeholder="Your Email" class="w-full border border-gray-200 rounded-xl p-3 text-sm focus:outline-none focus:border-blue-500 bg-white">
+                    <textarea rows="4" placeholder="Your Message..." class="w-full border border-gray-200 rounded-xl p-3 text-sm focus:outline-none focus:border-blue-500 bg-white resize-none"></textarea>
+                    <button type="submit" class="w-full bg-gradient-to-r from-blue-900 to-blue-600 text-white py-3 rounded-xl font-semibold text-sm hover:shadow-lg transition">
+                        Send Message <i class="fas fa-paper-plane ml-2"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-gray-900 text-gray-400 py-8 text-center text-sm">
+    <p>© 2026 Muhammad Ihtesham Ul Haq — Built with Django & ❤️</p>
+    <div class="flex justify-center gap-5 mt-4">
+        <a href="https://github.com/Ihtes-ham" target="_blank" class="hover:text-white transition"><i class="fab fa-github"></i></a>
+        <a href="https://linkedin.com/in/m-ihtesham480" target="_blank" class="hover:text-white transition"><i class="fab fa-linkedin"></i></a>
+        <a href="mailto:ihteshamm480@gmail.com" class="hover:text-white transition"><i class="fas fa-envelope"></i></a>
+    </div>
+</footer>
+
+<!-- SCROLL TO TOP -->
+<button id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})"
+    class="w-10 h-10 bg-gradient-to-r from-blue-900 to-blue-600 text-white rounded-full shadow-lg flex items-center justify-center hover:shadow-xl transition">
+    <i class="fas fa-chevron-up text-sm"></i>
+</button>
+
+<!-- AI CHATBOT -->
+<div class="chatbot-container">
+    <div class="chat-window" id="chatWindow">
+        <div class="p-4 bg-gradient-to-r from-blue-900 to-blue-600 text-white">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+                    <i class="fas fa-robot text-sm"></i>
+                </div>
+                <div>
+                    <div class="font-semibold text-sm">Ihtesham's AI Assistant</div>
+                    <div class="text-xs text-blue-200">Ask me anything about Ihtesham!</div>
+                </div>
+                <button onclick="toggleChat()" class="ml-auto text-white opacity-70 hover:opacity-100">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="msg-bot">👋 Hi! I'm Ihtesham's AI assistant. Ask me about his skills, projects, experience, or availability!</div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="chatInput" placeholder="Ask something..." onkeypress="handleEnter(event)">
+            <button class="chat-send-btn" onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+    <div style="display:flex; justify-content:flex-end;">
+        <button class="chat-toggle-btn" onclick="toggleChat()">
+            <i class="fas fa-robot text-white text-xl"></i>
+        </button>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+// AOS init
+AOS.init({ once: true, offset: 60 });
+
+// Typed text animation
+const texts = [
+    "Python/Django Developer",
+    "Backend Engineer",
+    "AI Integration Expert",
+    "REST API Specialist",
+    "Problem Solver"
+];
+let textIndex = 0, charIndex = 0, isDeleting = false;
+function type() {
+    const el = document.getElementById('typed-text');
+    const current = texts[textIndex];
+    if (isDeleting) {
+        el.textContent = current.substring(0, charIndex--);
+        if (charIndex < 0) { isDeleting = false; textIndex = (textIndex + 1) % texts.length; setTimeout(type, 500); return; }
+    } else {
+        el.textContent = current.substring(0, charIndex++);
+        if (charIndex > current.length) { isDeleting = true; setTimeout(type, 2000); return; }
+    }
+    setTimeout(type, isDeleting ? 60 : 100);
+}
+type();
+
+// Skill bars animation
+function animateSkills() {
+    document.querySelectorAll('.skill-fill').forEach(bar => {
+        const rect = bar.closest('.skill-item').getBoundingClientRect();
+        if (rect.top < window.innerHeight && bar.style.width === '') {
+            bar.style.width = bar.dataset.width + '%';
+        }
+    });
+}
+document.querySelectorAll('.skill-fill').forEach(b => b.style.width = '0%');
+window.addEventListener('scroll', animateSkills);
+animateSkills();
+
+// Floating particles
+function createParticles() {
+    const container = document.getElementById('particles');
+    for (let i = 0; i < 15; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        const size = Math.random() * 20 + 10;
+        p.style.cssText = `
+            width: ${size}px; height: ${size}px;
+            left: ${Math.random() * 100}%;
+            animation-duration: ${Math.random() * 20 + 15}s;
+            animation-delay: ${Math.random() * 10}s;
+            opacity: 0;
+        `;
+        container.appendChild(p);
+    }
+}
+createParticles();
+
+// Scroll to top
+window.addEventListener('scroll', () => {
+    document.getElementById('scrollTop').style.display = window.scrollY > 300 ? 'flex' : 'none';
+});
+
+// Chatbot
+function toggleChat() {
+    const w = document.getElementById('chatWindow');
+    w.classList.toggle('open');
+}
+
+function handleEnter(e) {
+    if (e.key === 'Enter') sendMessage();
+}
+
+async function sendMessage() {
+    const input = document.getElementById('chatInput');
+    const msg = input.value.trim();
+    if (!msg) return;
+
+    const messages = document.getElementById('chatMessages');
+
+    // User message
+    const userDiv = document.createElement('div');
+    userDiv.className = 'msg-user';
+    userDiv.textContent = msg;
+    messages.appendChild(userDiv);
+    input.value = '';
+
+    // Typing indicator
+    const typing = document.createElement('div');
+    typing.className = 'msg-bot typing-indicator';
+    typing.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+    messages.appendChild(typing);
+    messages.scrollTop = messages.scrollHeight;
+
+    try {
+        const res = await fetch('/api/chat/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: msg })
+        });
+        const data = await res.json();
+        typing.remove();
+
+        const botDiv = document.createElement('div');
+        botDiv.className = 'msg-bot';
+        botDiv.textContent = data.response;
+        messages.appendChild(botDiv);
+    } catch {
+        typing.remove();
+        const errDiv = document.createElement('div');
+        errDiv.className = 'msg-bot';
+        errDiv.textContent = 'Sorry, something went wrong. Please try again!';
+        messages.appendChild(errDiv);
+    }
+    messages.scrollTop = messages.scrollHeight;
+}
+
+// CV Analyzer
+async function analyzeCV() {
+    const desc = document.getElementById('job-desc').value.trim();
+    if (!desc) { alert('Please paste a job description first!'); return; }
+
+    const resultDiv = document.getElementById('analyze-result');
+    const textDiv = document.getElementById('analyze-text');
+
+    resultDiv.classList.remove('hidden');
+    textDiv.textContent = '🤖 Analyzing... please wait';
+
+    try {
+        const res = await fetch('/api/analyze-cv/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ job_description: desc })
+        });
+        const data = await res.json();
+        textDiv.textContent = data.response;
+    } catch {
+        textDiv.textContent = 'Analysis failed. Please try again!';
+    }
+}
+</script>
+
+<!-- Typed.js tech badges fix - replace template tag -->
+<script>
+document.querySelectorAll('.tech-badge').forEach((el, i) => {
+    const techs = ['Python','Django','PostgreSQL','Redis','Celery','JWT','REST APIs','Git','Tailwind','Gemini AI','OpenCV','Pandas'];
+    if(techs[i]) el.textContent = techs[i];
+});
+</script>
+
+</body>
+</html>
